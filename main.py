@@ -1,10 +1,8 @@
-from http.cookiejar import FileCookieJar, LWPCookieJar
 import os
 import re
 import inquirer
 import pinyin
 import requests
-from pprint import pprint
 from bs4 import BeautifulSoup
 import pandas as pd
 import mysql.connector
