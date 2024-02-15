@@ -89,11 +89,10 @@ if __name__ == '__main__':
     courses = [(t[0], t[1], s) for t, s in zip(courses, enrolled_as)]
     print('Done')
 
+    courses = list(filter(lambda x: x[2] == '助教', courses))
     if len(courses) == 0:
         print('没有可用的课程！')
         exit(0)
-
-    courses = list(filter(lambda x: x[2] == '助教', courses))
 
     courses_selection = [
         course[0]
