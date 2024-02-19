@@ -78,13 +78,23 @@ if __name__ == '__main__':
     print('开始搜索可用的课程...', end='')
     content = session.get(courses_url).content
     soup = BeautifulSoup(content, 'html.parser')
-    courses = soup.find_all(
-        'a', {'title': True, 'href': re.compile(r"/courses/\d+")})
-    courses = [(course.get('title'), re.findall(r"/courses/(\d+)", course.get('href'))[0])
-               for course in courses]
-    enrolled_as = [item.get_text().strip() for item in soup.find_all(
-        'td', {'class': 'course-list-enrolled-as-column'})]
-    courses = [(t[0], t[1], s) for t, s in zip(courses, enrolled_as)]
+    trs = soup.find_all(
+        'tr', {'class': 'course-list-table-row'})
+
+    target_courses = []
+    target_enrolled_as = []
+    for tr in trs:
+        course = tr.find(
+            'a', {'title': True, 'href': re.compile(r"/courses/\d+")})
+        if course is None:
+            continue
+        enrolled_as = tr.find(
+            'td', {'class': 'course-list-enrolled-as-column'})
+        target_courses.append((course.get('title'), re.findall(
+            r"/courses/(\d+)", course.get('href'))[0]))
+        target_enrolled_as.append(enrolled_as.get_text().strip())
+    courses = [(t[0], t[1], s)
+               for t, s in zip(target_courses, target_enrolled_as)]
     print('Done')
 
     courses = list(filter(lambda x: x[2] == '助教', courses))

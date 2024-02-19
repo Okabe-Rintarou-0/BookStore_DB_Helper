@@ -25,8 +25,7 @@ def from_int(x: Any) -> int:
 
 
 def from_str(x: Any) -> str:
-    assert isinstance(x, str)
-    return x
+    return x if x is not None else ""
 
 
 def from_datetime(x: Any) -> datetime:
