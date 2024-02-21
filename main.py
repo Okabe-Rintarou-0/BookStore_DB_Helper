@@ -170,13 +170,17 @@ if __name__ == '__main__':
         questions = [inquirer.Text('host', message='请输入远程 host')]
         host = inquirer.prompt(questions)['host']
 
+    questions = [inquirer.Text('port', message='请输入端口')]
+    port = inquirer.prompt(questions)['port']
+    
     questions = [inquirer.Text('password', message='请输入密码')]
     password = inquirer.prompt(questions)['password']
-    conn = mysql.connector.connect(
+    conn = mysql.connector.MySQLConnection(
         host=host,
         user='root',
         password=password,
-        database="bookstore"
+        database="bookstore",
+        port=port
     )
 
     cursor = conn.cursor()
